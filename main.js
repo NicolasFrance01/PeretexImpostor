@@ -50,8 +50,11 @@ class PepeGame {
     }
 
     toScreen(screenId) {
+        console.log('Navigating to screen:', screenId);
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         const next = document.getElementById(`screen-${screenId}`);
+        if (!next) return;
+
         next.classList.add('active');
         this.state.screen = screenId;
 
@@ -64,6 +67,7 @@ class PepeGame {
 
             cover.style.transform = 'translateY(0)';
             hint.style.opacity = '1';
+            hint.style.display = 'flex'; // Ensure hint is shown
             nextBtn.style.opacity = '0';
             nextBtn.style.pointerEvents = 'none';
         }
@@ -76,6 +80,7 @@ class PepeGame {
     }
 
     resetGame() {
+        console.log('Resetting game state...');
         // Stop timer
         if (this.state.currentGame?.timerId) {
             clearInterval(this.state.currentGame.timerId);
@@ -88,6 +93,9 @@ class PepeGame {
         this.state.currentGame = null;
         this.state.selectedTarget = null;
         this.state.isOpened = false;
+
+        // Reset themes if they were cleared? (User said "revision de las configuraciones")
+        // We keep players and mode as per typical game restart behavior.
 
         // Close all modals
         document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
@@ -366,22 +374,26 @@ class PepeGame {
                 if (diff > 80) {
                     cover.style.transform = `translateY(-${this.REVEAL_PCT}%)`;
                     hint.style.opacity = '0';
+                    hint.style.display = 'none'; // Hide hint when peered
                     this.state.isOpened = true;
                     nextBtn.style.opacity = '0';
                     nextBtn.style.pointerEvents = 'none';
                 } else {
                     cover.style.transform = 'translateY(0)';
                     hint.style.opacity = '1';
+                    hint.style.display = 'flex';
                 }
             } else {
                 if (diff < -50) {
                     cover.style.transform = 'translateY(0)';
-                    hint.style.opacity = '1';
+                    hint.style.opacity = '0'; // Keep hint hidden while button is visible
+                    hint.style.display = 'none';
                     this.state.isOpened = false;
                     nextBtn.style.opacity = '1';
                     nextBtn.style.pointerEvents = 'all';
                 } else {
                     cover.style.transform = `translateY(-${this.REVEAL_PCT}%)`;
+                    hint.style.display = 'none';
                 }
             }
         };
