@@ -339,6 +339,7 @@ class PepeGame {
         const hint = document.getElementById('reveal-hint');
         const nextBtn = document.getElementById('btn-next-player');
 
+        this.REVEAL_PCT = 37; // Ajuste manual del usuario (37%)
         let startY = 0;
 
         const handleStart = (y) => {
@@ -348,23 +349,24 @@ class PepeGame {
         const handleMove = (y) => {
             let diff = startY - y;
             if (diff > 0 && !this.state.isOpened) {
-                cover.style.transform = `translateY(-${Math.min(diff, window.innerHeight * 0.37)}px)`;
+                // Use pixels for smooth dragging, but cap at the reveal percentage
+                const maxPx = window.innerHeight * (this.REVEAL_PCT / 100);
+                cover.style.transform = `translateY(-${Math.min(diff, maxPx)}px)`;
                 hint.style.opacity = (150 - diff) / 150;
             } else if (diff < 0 && this.state.isOpened) {
-                cover.style.transform = `translateY(calc(-37% + ${Math.min(Math.abs(diff), window.innerHeight * 0.55)}px))`;
+                // Dragging back down
+                const currentShift = window.innerHeight * (this.REVEAL_PCT / 100);
+                cover.style.transform = `translateY(calc(-${this.REVEAL_PCT}% + ${Math.min(Math.abs(diff), currentShift)}px))`;
             }
         };
 
         const handleEnd = (y) => {
             let diff = startY - y;
-            const revealHeight = parseFloat(cover.style.transform.replace('translateY(-', '').replace('%)', '')) || 37;
-
             if (!this.state.isOpened) {
-                if (diff > 80) { // More sensitive (was 100)
-                    cover.style.transform = `translateY(-${revealHeight}%)`;
+                if (diff > 80) {
+                    cover.style.transform = `translateY(-${this.REVEAL_PCT}%)`;
                     hint.style.opacity = '0';
                     this.state.isOpened = true;
-                    // Button remains hidden until swipe down
                     nextBtn.style.opacity = '0';
                     nextBtn.style.pointerEvents = 'none';
                 } else {
@@ -372,14 +374,14 @@ class PepeGame {
                     hint.style.opacity = '1';
                 }
             } else {
-                if (diff < -50) { // Much more sensitive down swipe (was -80)
+                if (diff < -50) {
                     cover.style.transform = 'translateY(0)';
                     hint.style.opacity = '1';
                     this.state.isOpened = false;
                     nextBtn.style.opacity = '1';
                     nextBtn.style.pointerEvents = 'all';
                 } else {
-                    cover.style.transform = `translateY(-${revealHeight}%)`;
+                    cover.style.transform = `translateY(-${this.REVEAL_PCT}%)`;
                 }
             }
         };
