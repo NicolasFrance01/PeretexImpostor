@@ -1,6 +1,6 @@
 import { WORD_BANK } from './src/words.js';
 
-class PepeGame {
+class PeretexGame {
     constructor() {
         this.state = {
             screen: 'welcome',
@@ -98,7 +98,7 @@ class PepeGame {
     }
 
     resetGame() {
-        console.log('Pepe: Hard Resetting...');
+        console.log('Peretex: Hard Resetting...');
 
         // Stop all timers
         if (this.state.currentGame?.timerId) clearInterval(this.state.currentGame.timerId);
@@ -122,6 +122,8 @@ class PepeGame {
     }
 
     openModal(id) {
+        const modal = document.getElementById(`modal-${id}`);
+        if (modal) modal.classList.add('active');
     }
 
     closeModal(id) {
@@ -311,7 +313,7 @@ class PepeGame {
             players[playerIndex].isImpostor = true;
 
             if (this.state.mode === 'Clásico') {
-                players[playerIndex].word = 'PEPE EL IMPOSTOR';
+                players[playerIndex].word = 'PERETEX EL IMPOSTOR';
             } else if (this.state.mode === 'Misterioso') {
                 let mysteryWord = words[Math.floor(Math.random() * words.length)];
                 while (mysteryWord === mainWord) mysteryWord = words[Math.floor(Math.random() * words.length)];
@@ -518,9 +520,9 @@ class PepeGame {
 
         if (target.isImpostor) {
             this.state.currentGame.totalFound++;
-            img.src = 'pepetriste.png';
+            img.src = 'peretextriste.png';
             title.innerText = '¡LO ENCONTRASTE!';
-            msg.innerText = `${target.name} ERA PEPE EL IMPOSTOR.`;
+            msg.innerText = `${target.name} ERA PERETEX EL IMPOSTOR.`;
 
             if (this.state.currentGame.totalFound >= this.state.currentGame.totalImpostors) {
                 title.innerText = '¡GANASTE!';
@@ -530,8 +532,8 @@ class PepeGame {
                 btnContinue.style.display = 'block';
             }
         } else {
-            img.src = 'pepelibre.png';
-            title.innerText = 'PEPE SIGUE SUELTO';
+            img.src = 'peretexlibre.png';
+            title.innerText = 'PERETEX SIGUE SUELTO';
             msg.innerText = `${target.name} ERA INOCENTE. EL TIEMPO SIGUE CORRIENDO.`;
             btnContinue.style.display = 'block';
         }
@@ -546,4 +548,4 @@ class PepeGame {
     }
 }
 
-new PepeGame();
+new PeretexGame();

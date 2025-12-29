@@ -1,19 +1,19 @@
-const CACHE_NAME = 'pepe-impostor-v2'; // Incrementado para forzar actualización
+const CACHE_NAME = 'peretex-impostor-v1';
 const ASSETS = [
     './',
     './index.html',
     './style.css',
     './main.js',
     './manifest.webmanifest',
-    './pepeicono.png',
-    './pepemenu.png',
-    './pepelibre.png',
-    './pepetriste.png',
-    './imagengenerica.png'
+    './peretexicono.png',
+    './peretexmenu2.png',
+    './peretexlibre.png',
+    './peretextriste.png',
+    './peretexgenerica.png'
 ];
 
 self.addEventListener('install', (event) => {
-    self.skipWaiting(); // Forzar activación inmediata
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS);
@@ -32,7 +32,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    // Estrategia: Network First para archivos críticos, Cache para resto
     event.respondWith(
         fetch(event.request).catch(() => {
             return caches.match(event.request);

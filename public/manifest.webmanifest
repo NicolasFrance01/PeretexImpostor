@@ -1,6 +1,6 @@
 {
-    "name": "PEPE el Impostor",
-    "short_name": "Pepe",
+    "name": "Peretex el Impostor",
+    "short_name": "Peretex",
     "description": "Juego de deducción y engaño social.",
     "start_url": ".",
     "display": "standalone",
@@ -9,13 +9,13 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src": "pepeicono.png",
+            "src": "peretexicono.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "pepeicono.png",
+            "src": "peretexicono.png",
             "sizes": "512x512",
             "type": "image/png"
         }
